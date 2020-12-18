@@ -43,10 +43,8 @@ const removeUser = (id) => {
 
 }
 
-const getUser = (id) => {
-    
+const getUser = (id) => {    
     return users.find((user) => user.id === id)
-
 }
 
 const getUsersInRoom = (room) => {

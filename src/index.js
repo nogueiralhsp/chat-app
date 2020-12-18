@@ -47,7 +47,7 @@ io.on('connection',(socket) => {//name of event and funtion to run, watches for 
           }
           socket.join(user.room)
 
-          socket.emit('message',generatedMessage('New user! Welcome to Nogueira Bate-Papo  New User')) //send welcome messaging
+          socket.emit('message',generatedMessage(`${user.username}! Welcome to Nogueira Bate-Papo  New User`)) //send welcome messaging
           socket.broadcast.to(user.room).emit('message', generatedMessage(`${user.username} has joined!`)) //notify other users that a new user is in
           
           callback()
@@ -56,17 +56,20 @@ io.on('connection',(socket) => {//name of event and funtion to run, watches for 
      })
 
      socket.on('sendMessage', (messageFromClient, callback) => {
+         const user = getUser(socket.id)
           const filter = new Filter ()
-
           if (filter.isProfane(messageFromClient)){
                return callback('Profanity is not allowed')
           }
-          io.to('taubate').emit('message',generatedMessage(messageFromClient))
+
+          io.to(user.room).emit('message', generatedMessage(user.username, messageFromClient))
           callback()
      })
 
      socket.on('sendLocation', (coords, callback) => {
-          io.emit('locationMessage',generatedLocationMessage(`https://google.com/maps?q=${coords.latitude},${coords.longitude}`))
+          const user = getUser(socket.id)
+          console.log(user);
+          io.to(user.room).emit('locationMessage', generatedLocationMessage(user.username,`https://google.com/maps?q=${coords.latitude},${coords.longitude}`))
           callback()
      })
 
