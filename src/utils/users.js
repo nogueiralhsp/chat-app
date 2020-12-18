@@ -28,7 +28,7 @@ const addUser = ({id, username, room}) => {
 
     const user = { id, username, room}
     users.push(user)
-    return {users}
+    return {user}
 }
 
 const removeUser = (id) => {
@@ -53,36 +53,9 @@ const getUsersInRoom = (room) => {
     return users.filter((user) => user.room === room)
 }
 
-
-//debuging users
-addUser( {
-    id: 23,
-    username: 'henrique',
-    room: ' Taubate'
-})
-
-addUser({
-        id: 24,
-        username:'kelen',
-        room: 'taubate'
-})
-
-addUser({
-    id: 25,
-    username:'felipe',
-    room: 'Sao Paulo'
-})
-
-
-//debuging logs
-if (true) {
-    console.log('\nfind user')
-    const test = getUser(25)
-    console.log(test);
-
-    console.log('\n\nin the room test')
-    const tstUsersInRoom = getUsersInRoom ('sao paulo')
-    console.log(tstUsersInRoom);
-    console.log('\n');
-
+module.exports = {
+    addUser,
+    removeUser,
+    getUser,
+    getUsersInRoom
 }

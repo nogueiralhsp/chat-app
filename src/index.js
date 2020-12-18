@@ -7,6 +7,8 @@ const express = require('express')
 const socketio = require('socket.io')
 const Filter = require('bad-words')
 const {generatedMessage, generatedLocationMessage} = require('./utils/messages')
+const {addUser, removeUser, getUser, getUsersInRoom} = require('./utils/users')
+const { Color } = require('chalk')
 
 //setting express
 const app = express()
@@ -39,11 +41,19 @@ io.on('connection',(socket) => {//name of event and funtion to run, watches for 
 
      console.log('there is a new WebSocket connection')
 
-     socket.on('join', ({username, room}) =>{
-          socket.join(room)
+     // socket.on('join', ({username, room}, callback) => {
+     socket.on('join', (optons, callback) => {     
+          const { error, user } = addUser({ id: socket.id, ...optons})//...options is a spread operator
+          if (error) {
+               return callback(error)
+          }
+          socket.join(user.room)
 
           socket.emit('message',generatedMessage('New user! Welcome to Nogueira Bate-Papo  New User')) //send welcome messaging
-          socket.broadcast.to(room).emit('message', generatedMessage(`${username} has joined!`)) //notify other users that a new user is in
+          socket.broadcast.to(user.room).emit('message', generatedMessage(`${user.username} has joined!`)) //notify other users that a new user is in
+          
+          callback()
+
           
      })
 
@@ -63,7 +73,12 @@ io.on('connection',(socket) => {//name of event and funtion to run, watches for 
      })
 
      socket.on('disconnect', () =>{
-          io.emit('message',generatedMessage('A user has diconnected the room!'))
+          const user = removeUser(socket.id)
+
+          if (user) {
+               io.to(user.room).emit('message',generatedMessage(`${user.username} left the rooom`))
+          }
+
      })
      // socket.emit('countUpdated',count)  // the value count, could be anything... it is count because makes sense to be
      //                                    // ".emit" sends info to the other side, either Server or Client

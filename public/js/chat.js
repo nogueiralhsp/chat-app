@@ -99,7 +99,12 @@ $sendLocationBtn.addEventListener('click', (e) =>{
 
 })
 
-socket.emit('join', {username, room})
+socket.emit('join', {username, room}, (error) => {
+    if (error) {
+        alert(error)
+        location.href = '/'
+    }
+})
 
 // socket.on('countUpdated',(count) => {// this is received from index.js "socket.emit('countUpdated',count)"
 //                                      // the value count, could be anything... it is count because makes sense to be
