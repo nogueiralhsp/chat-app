@@ -47,7 +47,7 @@ io.on('connection',(socket) => {//name of event and funtion to run, watches for 
           }
           socket.join(user.room)
 
-          socket.emit('message',generatedMessage('Admin', `${user.username}! Welcome to Nogueira Bate-Papo  New User`)) //send welcome messaging
+          socket.emit('message',generatedMessage('Admin', `${user.username}! Welcome to Nogueira Bate-Papo`)) //send welcome messaging
           socket.broadcast.to(user.room).emit('message', generatedMessage('Admin', `${user.username} has joined!`)) //notify other users that a new user is in
           
           callback()
