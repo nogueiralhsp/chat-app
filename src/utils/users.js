@@ -43,11 +43,20 @@ const removeUser = (id) => {
 
 }
 
+const getUser = (id) => {
+    
+    return users.find((user) => user.id === id)
+
+}
+
+const getUsersInRoom = (room) => {
+    return users.filter((usersInRoom) => usersInRoom.room === room)
+}
 
 addUser( {
     id: 23,
     username: 'henrique',
-    room: ' taubate'
+    room: ' Taubate'
 })
 
 addUser({
@@ -59,13 +68,15 @@ addUser({
 addUser({
     id: 25,
     username:'felipe',
-    room: 'sao paulo'
+    room: 'Sao Paulo'
 })
 
-console.log(users);
 
+console.log('\nfind user')
+const test = getUser(25)
+console.log(test);
 
-const removedUser = removeUser(23)
-
-console.log(removedUser);
-console.log(users);
+console.log('\n\nin the room test')
+const tstUsersInRoom = getUsersInRoom ('taubate')
+console.log(tstUsersInRoom);
+console.log('\n');
