@@ -50,9 +50,11 @@ const getUser = (id) => {
 }
 
 const getUsersInRoom = (room) => {
-    return users.filter((usersInRoom) => usersInRoom.room === room)
+    return users.filter((user) => user.room === room)
 }
 
+
+//debuging users
 addUser( {
     id: 23,
     username: 'henrique',
@@ -72,11 +74,15 @@ addUser({
 })
 
 
-console.log('\nfind user')
-const test = getUser(25)
-console.log(test);
+//debuging logs
+if (true) {
+    console.log('\nfind user')
+    const test = getUser(25)
+    console.log(test);
 
-console.log('\n\nin the room test')
-const tstUsersInRoom = getUsersInRoom ('taubate')
-console.log(tstUsersInRoom);
-console.log('\n');
+    console.log('\n\nin the room test')
+    const tstUsersInRoom = getUsersInRoom ('sao paulo')
+    console.log(tstUsersInRoom);
+    console.log('\n');
+
+}
