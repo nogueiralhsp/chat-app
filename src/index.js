@@ -47,8 +47,8 @@ io.on('connection',(socket) => {//name of event and funtion to run, watches for 
           }
           socket.join(user.room)
 
-          socket.emit('message',generatedMessage(`${user.username}! Welcome to Nogueira Bate-Papo  New User`)) //send welcome messaging
-          socket.broadcast.to(user.room).emit('message', generatedMessage(`${user.username} has joined!`)) //notify other users that a new user is in
+          socket.emit('message',generatedMessage('Admin', `${user.username}! Welcome to Nogueira Bate-Papo  New User`)) //send welcome messaging
+          socket.broadcast.to(user.room).emit('message', generatedMessage('Admin', `${user.username} has joined!`)) //notify other users that a new user is in
           
           callback()
 
@@ -77,7 +77,7 @@ io.on('connection',(socket) => {//name of event and funtion to run, watches for 
           const user = removeUser(socket.id)
 
           if (user) {
-               io.to(user.room).emit('message',generatedMessage(`${user.username} left the rooom`))
+               io.to(user.room).emit('message',generatedMessage('Admin', `${user.username} left the rooom`))
           }
 
      })
