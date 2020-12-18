@@ -27,8 +27,10 @@ app.use(express.static(publicDirectoryPath))
 //server (emit) -> cliente (received) - countUpdated
 //client (emit) -> server (receive = increm)
 //socket.emit() => sends to the user just connected
-//socket.broadcast.emit() => sends to everyone but the user just connected
+//socket.broadcast.emit() => sends to everyone but the user just connected (emiting the event)
 //io.emit() => sends to everyone connected
+//io.to.emit => emit for everyone in a specific room
+//socket.broadcast.to.emit => emits to everyone but the user emiting the message
 
 
 io.on('connection',(socket) => {//name of event and funtion to run, watches for every new connection
@@ -37,8 +39,13 @@ io.on('connection',(socket) => {//name of event and funtion to run, watches for 
 
      console.log('there is a new WebSocket connection')
 
-     socket.emit('message',generatedMessage('New user! Welcome to Nogueira Bate-Papo  New User')) //send welcome messaging
-     socket.broadcast.emit('message', generatedMessage('A new User just connected in the room!')) //notify other users that a new user is in
+     socket.on('join', ({username, room}) =>{
+          socket.join(room)
+
+          socket.emit('message',generatedMessage('New user! Welcome to Nogueira Bate-Papo  New User')) //send welcome messaging
+          socket.broadcast.to(room).emit('message', generatedMessage(`${username} has joined!`)) //notify other users that a new user is in
+          
+     })
 
      socket.on('sendMessage', (messageFromClient, callback) => {
           const filter = new Filter ()
@@ -46,7 +53,7 @@ io.on('connection',(socket) => {//name of event and funtion to run, watches for 
           if (filter.isProfane(messageFromClient)){
                return callback('Profanity is not allowed')
           }
-          io.emit('message',generatedMessage(messageFromClient))
+          io.to('taubate').emit('message',generatedMessage(messageFromClient))
           callback()
      })
 
