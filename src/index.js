@@ -1,14 +1,12 @@
 // Source Code: lib/path.js
 // The path module provides utilities for working with file and directory paths. It can be accessed using:
 const path = require('path')
-const chalk = require('chalk')
 const http = require('http')
 const express = require('express')
 const socketio = require('socket.io')
 const Filter = require('bad-words')
 const {generatedMessage, generatedLocationMessage} = require('./utils/messages')
 const {addUser, removeUser, getUser, getUsersInRoom} = require('./utils/users')
-const { Color } = require('chalk')
 
 //setting express
 const app = express()
@@ -97,6 +95,6 @@ io.on('connection',(socket) => {//name of event and funtion to run, watches for 
 
 server.listen(port, () => { //localhost:3000
 
-console.log(chalk.yellow(` >> Server is up on localhost:${port} <<`))
+console.log(` >> Server is up on localhost:${port} <<`)
 
 })
