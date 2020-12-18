@@ -15,7 +15,6 @@
     "socket.io": "^3.0.4"
   },
   "devDependencies": {
-    "chalk": "^4.1.0",
     "nodemon": "^2.0.6"
   }
 }
