@@ -49,6 +49,10 @@ io.on('connection',(socket) => {//name of event and funtion to run, watches for 
 
           socket.emit('message',generatedMessage('Admin', `${user.username}! Welcome to Nogueira Bate-Papo`)) //send welcome messaging
           socket.broadcast.to(user.room).emit('message', generatedMessage('Admin', `${user.username} has joined!`)) //notify other users that a new user is in
+          io.to(user.room).emit('roomData',{
+               room: user.room,
+               users: getUsersInRoom(user.room)
+          }) 
           
           callback()
 
@@ -78,6 +82,10 @@ io.on('connection',(socket) => {//name of event and funtion to run, watches for 
 
           if (user) {
                io.to(user.room).emit('message',generatedMessage('Admin', `${user.username} left the rooom`))
+               io.to(user.room).emit('roomData',{
+                    room: user.room,
+                    users: getUsersInRoom(user.room)
+               }) 
           }
 
      })
